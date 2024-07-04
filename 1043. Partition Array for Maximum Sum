@@ -1,0 +1,36 @@
+Leetcode: 1043. Partition Array for Maximum Sum
+
+Problem Statement:
+Given an integer array arr, partition the array into (contiguous) subarrays of length at most k. After partitioning, each subarray has their values changed to become the maximum value of that subarray.
+
+Return the largest sum of the given array after partitioning. Test cases are generated so that the answer fits in a 32-bit integer.
+
+
+Code:
+
+class Solution {
+public:
+    int solve(vector<int>&arr,int i,int k,vector<int>&dp){
+        int n=arr.size();
+        
+        if(i>=n){
+            return 0;
+        }
+        if(dp[i]!=-1)return dp[i];
+        int maxi=arr[i];
+        int ans=INT_MIN;
+        int z=min(n,i+k);
+        for(int j=i;j<z;j++){
+
+            maxi=max(maxi,arr[j]);
+            ans= max(solve(arr,j+1,k,dp)+(j-i+1)*maxi,ans);
+            
+        }
+        return dp[i]=ans;
+    }
+
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        vector<int>dp(600,-1);
+        return solve(arr,0,k,dp);
+    }
+};
